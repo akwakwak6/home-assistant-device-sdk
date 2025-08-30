@@ -1,0 +1,49 @@
+{
+    "name": "home-assistant-device-sdk",
+    "version": "0.4.2",
+    "license": "MIT",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "files": [
+        "dist"
+    ],
+    "description": "SDK for Home Assistant. It reads your devices and generates HA TypeScript class to easily control devices and build automations",
+    "scripts": {
+        "build": "tsup",
+        "test": "vitest run",
+        "buildHaWhitMock": "TSUP_ENV=mock tsup && node local/dist/buildHaCli.mock.js",
+        "prepack": "npm run build"
+    },
+    "keywords": [
+        "home-assistant",
+        "homeassistant",
+        "automation",
+        "automations",
+        "smart-home",
+        "smarthome",
+        "iot",
+        "home-automation",
+        "entities",
+        "devices",
+        "sdk",
+        "toolkit",
+        "typescript",
+        "codegen",
+        "code-generation",
+        "scripting"
+    ],
+    "author": "Akwa",
+    "type": "module",
+    "devDependencies": {
+        "@types/node": "^24.3.0",
+        "tsup": "^8.5.0",
+        "typescript": "5.9.2",
+        "vitest": "^3.2.4"
+    },
+    "dependencies": {
+        "commander": "^14.0.0"
+    },
+    "bin": {
+        "hasdk": "dist/scripts/buildHaCli.js"
+    }
+}

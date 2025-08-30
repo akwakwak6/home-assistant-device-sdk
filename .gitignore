@@ -1,0 +1,6 @@
+node_modules
+dist
+local
+package
+src/ha.ts
+.hasdk.config.json
