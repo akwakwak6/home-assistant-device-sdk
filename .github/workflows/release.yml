@@ -24,8 +24,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # - name: Build package
-      #   run: npm run build
+      - name: Build package
+        run: npm run build
 
       # - name: Get version from package.json
       #   id: package
@@ -43,7 +43,11 @@ jobs:
       #     fi
 
       - name: Publish to npm (Trusted Publisher)
-        run: npm publish
+        run: |
+          npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
+          npm publish --ignore-scripts
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
