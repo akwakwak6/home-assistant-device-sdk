@@ -10,8 +10,8 @@ jobs:
   release:
     runs-on: ubuntu-latest
     permissions:
-      contents: read    #write   # pour créer les releases GitHub
-      id-token: write   # 🔑 nécessaire pour Trusted Publisher
+      contents: write   # pour créer les releases GitHub
+      # id-token: write   # 🔑 needed Trusted Publisher
 
     steps:
       - uses: actions/checkout@v4
@@ -27,27 +27,24 @@ jobs:
       - name: Build package
         run: npm run build
 
-      # - name: Get version from package.json
-      #   id: package
-      #   run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+      - name: Get version from package.json
+        id: package
+        run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
 
-      # - name: Create Git tag if missing
-      #   run: |
-      #     if git rev-parse "v${{ steps.package.outputs.version }}" >/dev/null 2>&1; then
-      #       echo "Tag v${{ steps.package.outputs.version }} already exists"
-      #     else
-      #       git config user.name "github-actions[bot]"
-      #       git config user.email "github-actions[bot]@users.noreply.github.com"
-      #       git tag v${{ steps.package.outputs.version }}
-      #       git push origin v${{ steps.package.outputs.version }}
-      #     fi
-
-      - name: Publish to npm (Trusted Publisher)
+      - name: Create Git tag if missing
         run: |
-          npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
-          npm publish --ignore-scripts
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          if git rev-parse "v${{ steps.package.outputs.version }}" >/dev/null 2>&1; then
+            echo "Tag v${{ steps.package.outputs.version }} already exists"
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git tag v${{ steps.package.outputs.version }}
+            git push origin v${{ steps.package.outputs.version }}
+          fi
+
+# TODO: publish to npm with trusted publisher
+      # - name: Publish to npm (Trusted Publisher)
+      #   run: npm publish --ignore-scripts
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
