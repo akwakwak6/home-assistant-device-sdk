@@ -1,12 +1,12 @@
 {
     "name": "home-assistant-device-sdk",
-    "version": "0.4.3",
+    "version": "0.4.4",
     "license": "MIT",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/akwakwak/home-assistant-device-sdk.git"
+        "url": "https://github.com/akwakwak6/home-assistant-device-sdk"
     },
     "files": [
         "dist"
