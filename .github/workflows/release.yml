@@ -10,44 +10,40 @@ jobs:
   release:
     runs-on: ubuntu-latest
     permissions:
-      contents: write   # pour créer les releases GitHub
+      contents: read    #write   # pour créer les releases GitHub
       id-token: write   # 🔑 nécessaire pour Trusted Publisher
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 22
-          registry-url: "https://registry.npmjs.org/"
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Build package
-        run: npm run build
+      # - name: Build package
+      #   run: npm run build
 
-      - name: Get version from package.json
-        id: package
-        run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+      # - name: Get version from package.json
+      #   id: package
+      #   run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
 
-      - name: Create Git tag if missing
-        run: |
-          if git rev-parse "v${{ steps.package.outputs.version }}" >/dev/null 2>&1; then
-            echo "Tag v${{ steps.package.outputs.version }} already exists"
-          else
-            git config user.name "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            git tag v${{ steps.package.outputs.version }}
-            git push origin v${{ steps.package.outputs.version }}
-          fi
+      # - name: Create Git tag if missing
+      #   run: |
+      #     if git rev-parse "v${{ steps.package.outputs.version }}" >/dev/null 2>&1; then
+      #       echo "Tag v${{ steps.package.outputs.version }} already exists"
+      #     else
+      #       git config user.name "github-actions[bot]"
+      #       git config user.email "github-actions[bot]@users.noreply.github.com"
+      #       git tag v${{ steps.package.outputs.version }}
+      #       git push origin v${{ steps.package.outputs.version }}
+      #     fi
 
       - name: Publish to npm (Trusted Publisher)
-        run: |
-          npm test
-          npm publish
+        run: npm publish
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
