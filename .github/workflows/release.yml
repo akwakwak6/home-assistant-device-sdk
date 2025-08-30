@@ -45,7 +45,9 @@ jobs:
           fi
 
       - name: Publish to npm (Trusted Publisher)
-        run: npm publish --provenance
+        run: |
+          npm whoami
+          npm publish --provenance
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
