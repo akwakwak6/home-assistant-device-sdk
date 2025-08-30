@@ -27,7 +27,7 @@ jobs:
         run: npm ci
 
       - name: Build package
-        run: npm run build --if-present
+        run: npm run build
 
       - name: Get version from package.json
         id: package
@@ -46,8 +46,8 @@ jobs:
 
       - name: Publish to npm (Trusted Publisher)
         run: |
-          npm whoami
-          npm publish --provenance
+          npm test
+          npm publish
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
