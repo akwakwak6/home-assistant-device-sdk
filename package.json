@@ -4,6 +4,10 @@
     "license": "MIT",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/akwakwak/home-assistant-device-sdk.git"
+    },
     "files": [
         "dist"
     ],
