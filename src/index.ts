@@ -16,6 +16,7 @@ import {
 } from "./types/entities/light.type";
 import { IConnectionConfig } from "./entities/haWebSocket";
 import { IHandler, IEntitySession } from "./types/entities/entity.type";
+import { DeviceType } from "./types/utilsTypes";
 
 export {
     buildHaFile,
@@ -35,4 +36,5 @@ export {
     IConnectionConfig,
     IHandler,
     IEntitySession,
+    DeviceType,
 };

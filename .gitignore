@@ -4,3 +4,4 @@ local
 package
 src/ha.ts
 .hasdk.config.json
+.DS_Store
