@@ -1,4 +1,4 @@
-import { IConfig, IConfigCredentials, IConfigDal, IConfigDeviceType, IConfigEntity } from "src/types/entities/configDal.type";
+import { IConfig, IConfigCredentials, IConfigDal, IConfigDeviceType, IConfigDevice } from "src/types/entities/configDal.type";
 import { DEFAULT_CONFIG_PATH, ENCODING_FILE } from "src/constants/haFileConstantes";
 import * as fs from "fs";
 
@@ -30,11 +30,11 @@ export class ConfigService implements IConfigDal {
         return this.setConfigProperty("credentials", credentials);
     }
 
-    getEntities(): Promise<{ [ID: string]: IConfigEntity }> {
+    getEntities(): Promise<{ [ID: string]: IConfigDevice }> {
         return this.getConfigProperty("entities");
     }
 
-    async setEntities(entities: { [ID: string]: IConfigEntity }): Promise<void> {
+    async setEntities(entities: { [ID: string]: IConfigDevice }): Promise<void> {
         return this.setConfigProperty("entities", entities);
     }
 

@@ -1,6 +1,6 @@
 import { DEFAULT_CONFIG_PATH } from "src/constants/haFileConstantes";
 import { CONFIG_MOCK } from "src/mocks/config.mock";
-import { IConfig, IConfigCredentials, IConfigDal, IConfigDeviceType, IConfigEntity } from "src/types/entities/configDal.type";
+import { IConfig, IConfigCredentials, IConfigDal, IConfigDeviceType, IConfigDevice } from "src/types/entities/configDal.type";
 
 export class ConfigServiceMock implements IConfigDal {
     constructor(private readonly configPath: string = DEFAULT_CONFIG_PATH, private config: IConfig = CONFIG_MOCK) {}
@@ -21,11 +21,11 @@ export class ConfigServiceMock implements IConfigDal {
         return Promise.resolve();
     }
 
-    getEntities(): Promise<{ [ID: string]: IConfigEntity }> {
-        return Promise.resolve(this.config.entities);
+    getEntities(): Promise<{ [ID: string]: IConfigDevice }> {
+        return Promise.resolve(this.config.devices);
     }
 
-    async setEntities(entities: { [ID: string]: IConfigEntity }): Promise<void> {
+    async setEntities(entities: { [ID: string]: IConfigDevice }): Promise<void> {
         return Promise.resolve();
     }
 

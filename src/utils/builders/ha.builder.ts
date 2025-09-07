@@ -73,13 +73,13 @@ export function buildHaClass(states: IStateDtoIn[], config: Partial<IConfig>): {
 
 export function mergeStateAndConfig(states: IStateDtoIn[], config: Partial<IConfig>): MergedStateAndConfig {
     const newConfig: IConfig = {
-        entities: {},
+        devices: {},
         deviceType: {},
         credentials: { url: "", token: "" },
         ...config,
     };
 
-    const entities = newConfig.entities;
+    const entities = newConfig.devices;
 
     const uniqueName = uniqueNameFactory();
 

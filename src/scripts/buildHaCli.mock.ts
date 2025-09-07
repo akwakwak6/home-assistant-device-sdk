@@ -9,7 +9,7 @@ const CONFIG_MOCK_EMPTY: IConfig = {
         url: "http://mock-url:8123",
         token: "mock-token",
     },
-    entities: {},
+    devices: {},
     deviceType: {},
 };
 
@@ -18,7 +18,7 @@ const CONFIG_MOCK: IConfig = {
         url: "http://mock-url:8123",
         token: "mock-token",
     },
-    entities: {
+    devices: {
         "light.wiz_rgbw54554848454": {
             name: "nameFromConfigMock",
             wasDetected: true,

@@ -1,6 +1,6 @@
 import { DeviceTypeDico } from "../utilsTypes";
 
-export interface IConfigEntity {
+export interface IConfigDevice {
     wasDetected: boolean;
     type: string;
     name: string;
@@ -16,7 +16,7 @@ export type IConfigDeviceType = Partial<DeviceTypeDico<boolean>>;
 
 export interface IConfig {
     credentials: IConfigCredentials;
-    entities: { [ID: string]: IConfigEntity };
+    devices: { [ID: string]: IConfigDevice };
     deviceType: IConfigDeviceType;
 }
 
@@ -25,8 +25,8 @@ export interface IConfigDal {
     setAllConfig(config: Partial<IConfig>): Promise<void>;
     getCredentials(): Promise<IConfigCredentials>;
     setCredentials(credentials: IConfigCredentials): Promise<void>;
-    getEntities(): Promise<{ [ID: string]: IConfigEntity }>;
-    setEntities(entities: { [ID: string]: IConfigEntity }): Promise<void>;
+    getEntities(): Promise<{ [ID: string]: IConfigDevice }>;
+    setEntities(entities: { [ID: string]: IConfigDevice }): Promise<void>;
     getDeviceType(): Promise<IConfigDeviceType>;
     setDeviceType(deviceType: IConfigDeviceType): Promise<void>;
 }
