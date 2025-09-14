@@ -81,7 +81,6 @@ export class HA {
         lightbateau: new Light("light.544651954664", "lightbateau", LightOption2) as IlightEffect<typeof LightEffet2>,
         lightbedroom: new Light("light.wiz_rgbw_tunable_d3e436", "lightbedroom", LightOption3) as ILightTemperature,
         lightkitchen: new Light("light.wiz_rgbw_75478498987", "lightkitchen") as ILight,
-        nameFromConfigMock: new Light("light.wiz_rgbw54554848454", "nameFromConfigMock") as ILight,
         AnotherNameFromConfigMock: new Light("light.idFromConfigMock", "AnotherNameFromConfigMock") as ILight,
         _42notvalidName: new Light("light.notValidName", "_42notvalidName") as ILight,
     };
@@ -90,7 +89,6 @@ export class HA {
         this.devices.lightbateau,
         this.devices.lightbedroom,
         this.devices.lightkitchen,
-        this.devices.nameFromConfigMock,
         this.devices.AnotherNameFromConfigMock,
         this.devices._42notvalidName,
     ];

@@ -10,6 +10,7 @@ export const CONFIG_MOCK: IConfig = {
             name: "nameFromConfigMock",
             wasDetected: true,
             type: "light",
+            isUsed: false,
         },
         "light.idFromConfigMock": {
             name: "AnotherNameFromConfigMock",
@@ -18,6 +19,11 @@ export const CONFIG_MOCK: IConfig = {
         },
         "light.notValidName": {
             name: "42not valid@ Na#me",
+            wasDetected: true,
+            type: "light",
+        },
+        "switch.notValidName": {
+            name: "switch name",
             wasDetected: true,
             type: "light",
         },

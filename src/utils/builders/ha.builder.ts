@@ -79,26 +79,15 @@ export function mergeStateAndConfig(states: IStateDtoIn[], config: Partial<IConf
         ...config,
     };
 
-    const entities = newConfig.devices;
+    const devicesFromConfig = newConfig.devices;
 
     const uniqueName = uniqueNameFactory();
 
-    const deviceToRemove: string[] = [];
     const justCheck = true;
 
-    Object.keys(entities).forEach((entityId) => {
-        entities[entityId].wasDetected = false;
-        entities[entityId].name = uniqueName(entities[entityId].name, justCheck);
-        if (config.deviceType?.[entities[entityId].type as DeviceType] === false) {
-            deviceToRemove.push(entityId);
-            return;
-        }
-        if (entities[entityId]?.isUsed === false) {
-            deviceToRemove.push(entityId);
-        }
-    });
-    deviceToRemove.forEach((entityId) => {
-        delete entities[entityId];
+    Object.keys(devicesFromConfig).forEach((entityId) => {
+        devicesFromConfig[entityId].wasDetected = false;
+        devicesFromConfig[entityId].name = uniqueName(devicesFromConfig[entityId].name, justCheck);
     });
 
     const devices: IDeviceToBuildByType = {};
@@ -110,15 +99,18 @@ export function mergeStateAndConfig(states: IStateDtoIn[], config: Partial<IConf
             return;
         }
 
-        if (newConfig.deviceType?.[deviceType as DeviceType] === false) {
+        if (config.deviceType?.[deviceType as DeviceType] === false) {
             return;
         }
 
         const deviceId = state.entity_id;
-        if (entities[deviceId] && entities[deviceId].type === deviceType) {
-            entities[deviceId].wasDetected = true;
+        if (devicesFromConfig[deviceId] && devicesFromConfig[deviceId].type === deviceType) {
+            devicesFromConfig[deviceId].wasDetected = true;
+            if (devicesFromConfig[deviceId].isUsed === false) {
+                return;
+            }
         } else {
-            entities[deviceId] = {
+            devicesFromConfig[deviceId] = {
                 name: uniqueName(state.attributes.friendly_name),
                 wasDetected: true,
                 type: deviceType,
@@ -126,15 +118,15 @@ export function mergeStateAndConfig(states: IStateDtoIn[], config: Partial<IConf
             };
         }
 
-        const entity = entities[deviceId];
+        const deviceToBuild = devicesFromConfig[deviceId];
 
-        if (!devices[entity.type]) {
-            devices[entity.type] = [];
+        if (!devices[deviceToBuild.type]) {
+            devices[deviceToBuild.type] = [];
         }
 
-        devices[entity.type].push({
+        devices[deviceToBuild.type].push({
             attributes: state.attributes,
-            name: entity.name,
+            name: deviceToBuild.name,
             id: deviceId,
             type: deviceType,
         });
