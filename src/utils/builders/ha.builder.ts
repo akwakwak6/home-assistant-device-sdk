@@ -91,6 +91,10 @@ export function mergeStateAndConfig(states: IStateDtoIn[], config: Partial<IConf
         entities[entityId].name = uniqueName(entities[entityId].name, justCheck);
         if (config.deviceType?.[entities[entityId].type as DeviceType] === false) {
             deviceToRemove.push(entityId);
+            return;
+        }
+        if (entities[entityId]?.isUsed === false) {
+            deviceToRemove.push(entityId);
         }
     });
     deviceToRemove.forEach((entityId) => {
