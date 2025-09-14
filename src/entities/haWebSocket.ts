@@ -363,7 +363,10 @@ export class HaWebSocket {
 
         if (config?.configDal) {
             try {
-                const credentials = await config.configDal.getCredentials();
+                const credentials = (await config.configDal.getAllConfig()).credentials;
+                if (!credentials?.url || !credentials.token) {
+                    throw new Error("Missing credentials in configDal");
+                }
                 this.url = credentials.url;
                 this.token = credentials.token;
                 return;
@@ -374,8 +377,8 @@ export class HaWebSocket {
 
         try {
             const defaultConfigService = new ConfigService(config?.configPath);
-            const credentials = await defaultConfigService.getCredentials();
-            if (!credentials.url || !credentials.token) {
+            const credentials = (await defaultConfigService.getAllConfig()).credentials;
+            if (!credentials?.url || !credentials.token) {
                 throw new Error("Missing credentials");
             }
             this.url = credentials.url;

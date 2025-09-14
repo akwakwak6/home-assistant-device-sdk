@@ -21,7 +21,7 @@ export async function buildHaFile(options: IBuilderHaOption = {}, states?: IStat
     states = states ?? (await getStates(url, token));
 
     const { newConfig, content } = buildHaClass(states, config);
-    await dal.setAllConfig(newConfig);
+    await dal.setDevices(newConfig.devices);
 
     const outPath = path.resolve(options?.out || DEFAULT_OUT_PATH);
     fs.mkdirSync(path.dirname(outPath), { recursive: true });
