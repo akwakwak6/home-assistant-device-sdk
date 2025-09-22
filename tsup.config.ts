@@ -1,6 +1,5 @@
-import { defineConfig, Options } from "tsup";
 import { chmodSync, readFileSync, writeFileSync } from "fs";
-import { join } from "path";
+import { defineConfig, Options } from "tsup";
 
 export default defineConfig(() => {
     const env = process.env.TSUP_ENV || "default";
@@ -14,6 +13,13 @@ export default defineConfig(() => {
 
     if (env === "mock") {
         options.entry = ["src/scripts/buildHaCli.mock.ts"];
+        options.outDir = "local/dist";
+        options.sourcemap = true;
+        return options;
+    }
+
+    if (env === "testHaServer") {
+        options.entry = ["local/main.ts"];
         options.outDir = "local/dist";
         options.sourcemap = true;
         return options;

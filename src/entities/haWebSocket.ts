@@ -181,7 +181,7 @@ export class HaWebSocket {
 
     public static unsubscribe(entityId: string): Promise<boolean> {
         if (!this.entitySubscriptionDico[entityId]) {
-            console.warn("No subscription found for entity", entityId);
+            console.warn("No subscription found for entity " + entityId);
             return Promise.resolve(false);
         }
 
@@ -243,11 +243,11 @@ export class HaWebSocket {
                 clearTimeout(this.heartbeatTimeOutTimer);
                 this.heartbeatTimeOutTimer = undefined;
             }
-            this.startConnect();
+            this.startTryConnect();
         });
 
         this.socket.addEventListener("error", (error) => {
-            console.error("WebSocket error :", error.toString());
+            console.error("WebSocket error : " + error.toString());
         });
     }
 
@@ -292,11 +292,11 @@ export class HaWebSocket {
         }
 
         if (msg.type === DtoMessageType.AuthInvalid) {
-            console.error("Authentication failed. Invalid access token.", msg.message);
+            console.error("Authentication failed. Invalid access token" + msg.message);
             process.exit(1);
         }
 
-        console.warn("Unknown message type:", msg);
+        console.warn("Unknown message type: " + (msg as any).type);
     };
 
     private static resetHeartbeatTimeout = () => {
@@ -314,7 +314,6 @@ export class HaWebSocket {
     private static startConnect() {
         this.socket = new WebSocket(this.url);
         this.listenMessage();
-        this.startTryConnect();
     }
 
     public static addSubscriptionInProgress(subscription: OnConnectSubscription) {
@@ -371,7 +370,7 @@ export class HaWebSocket {
                 this.token = credentials.token;
                 return;
             } catch (error) {
-                console.warn("Failed to get credentials :", error);
+                console.warn("Failed to get credentials");
             }
         }
 

@@ -1,6 +1,6 @@
 {
     "name": "home-assistant-device-sdk",
-    "version": "0.6.2",
+    "version": "0.6.3",
     "license": "MIT",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
@@ -16,6 +16,7 @@
         "build": "tsup",
         "test": "vitest run",
         "buildHaWhitMock": "TSUP_ENV=mock tsup && node local/dist/buildHaCli.mock.js",
+        "testWithHaServer": "TSUP_ENV=testHaServer tsup && node local/dist/main.js",
         "prepack": "npm run build"
     },
     "keywords": [
