@@ -19,6 +19,7 @@ import { DeviceType } from "./types/utilsTypes";
 import { DEVICE_TYPES } from "./constants/haFileConstantes";
 import { IBuilderHaOption } from "./types/entities/deviceBuilder.type";
 import { IConfigDal, IConfig, IConfigCredentials, IConfigDevice, IConfigDeviceType } from "src/types/entities/configDal.type";
+import { ISwitchableStatus } from "./types/entities/switchable.type";
 
 export {
     buildHaFile,
@@ -45,4 +46,5 @@ export {
     IConfigCredentials,
     IConfigDevice,
     IConfigDeviceType,
+    ISwitchableStatus,
 };
