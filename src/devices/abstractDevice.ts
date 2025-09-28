@@ -1,9 +1,9 @@
 import { parseISODateWithMicroseconds } from "src/utils/mappers/date.mapper";
 import { IEventMessageDtoIn } from "src/types/dto/in/base.dto.in";
-import { IEntity } from "src/types/entities/entity.type";
+import { IDevice } from "src/types/devices/device.type";
 import { HaWebSocket } from "./haWebSocket";
 
-export abstract class AbstractEntity implements IEntity {
+export abstract class AbstractDevice implements IDevice {
     private hasSubscribe: boolean = false;
     private stateChangeCallBaclSet: Set<(change: any) => void> = new Set();
     protected abstract readonly entityType: string;

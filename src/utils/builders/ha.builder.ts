@@ -1,7 +1,7 @@
 // prettier-ignore
 import { CLASS_INIT_LIST, DEFAULT_OUT_PATH, DEVICE_TYPES, ENCODING_FILE, HEADER, IMPORTS_LIST } from "../../constants/haFileConstantes";
-import { IBuilderHaOption, IDeviceToBuild } from "../../types/entities/deviceBuilder.type";
-import { IConfig } from "src/types/entities/configDal.type";
+import { IBuilderHaOption, IDeviceToBuild } from "../../types/devices/deviceBuilder.type";
+import { IConfig } from "src/types/devices/configDal.type";
 import { ConfigService } from "src/utils/services/config.service";
 import { IStateDtoIn } from "src/types/dto/in/base.dto.in";
 import { getStates } from "../services/ha.service";
@@ -85,9 +85,9 @@ export function mergeStateAndConfig(states: IStateDtoIn[], config: Partial<IConf
 
     const justCheck = true;
 
-    Object.keys(devicesFromConfig).forEach((entityId) => {
-        devicesFromConfig[entityId].wasDetected = false;
-        devicesFromConfig[entityId].name = uniqueName(devicesFromConfig[entityId].name, justCheck);
+    Object.keys(devicesFromConfig).forEach((deviceId) => {
+        devicesFromConfig[deviceId].wasDetected = false;
+        devicesFromConfig[deviceId].name = uniqueName(devicesFromConfig[deviceId].name, justCheck);
     });
 
     const devices: IDeviceToBuildByType = {};

@@ -1,4 +1,4 @@
-import { IConfig } from "src/types/entities/configDal.type";
+import { IConfig } from "src/types/devices/configDal.type";
 
 export const CONFIG_MOCK: IConfig = {
     credentials: {

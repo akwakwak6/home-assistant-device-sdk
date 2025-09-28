@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, afterAll } from "vitest";
-import { IBuilderHaOption } from "../../types/entities/deviceBuilder.type";
 import { DEFAULT_CONFIG_PATH, DEFAULT_OUT_PATH, ENCODING_FILE } from "../../constants/haFileConstantes";
+import { IBuilderHaOption } from "../../types/devices/deviceBuilder.type";
 import { ConfigServiceMock } from "../services/config.service.mock";
 import { getStatesMock } from "../services/ha.service.mock";
 import { buildHaFile } from "./ha.builder";

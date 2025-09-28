@@ -1,9 +1,9 @@
 import { buildHaFile } from "./utils/builders/ha.builder";
-import { Switch } from "./entities/switch";
-import { HaWebSocket } from "./entities/haWebSocket";
-import { ISwitch } from "./types/entities/switch.type";
-import { IEntityState } from "./types/entities/entity.type";
-import { Light } from "./entities/light";
+import { Switch } from "./devices/switch";
+import { HaWebSocket } from "./devices/haWebSocket";
+import { ISwitch } from "./types/devices/switch.type";
+import { IDeviceState } from "./types/devices/device.type";
+import { Light } from "./devices/light";
 import {
     ILight,
     IlightTransitionEffect,
@@ -12,21 +12,21 @@ import {
     ILightColor,
     ILightTemperature,
     ILightBrightness,
-} from "./types/entities/light.type";
-import { IConnectionConfig } from "./entities/haWebSocket";
-import { IHandler, IEntitySession } from "./types/entities/entity.type";
+} from "./types/devices/light.type";
+import { IConnectionConfig } from "./devices/haWebSocket";
+import { IHandler, IDeviceSession } from "./types/devices/device.type";
 import { DeviceType } from "./types/utilsTypes";
 import { DEVICE_TYPES } from "./constants/haFileConstantes";
-import { IBuilderHaOption } from "./types/entities/deviceBuilder.type";
-import { IConfigDal, IConfig, IConfigCredentials, IConfigDevice, IConfigDeviceType } from "src/types/entities/configDal.type";
-import { ISwitchableStatus, SWITCHABLE_STATUS } from "./types/entities/switchable.type";
+import { IBuilderHaOption } from "./types/devices/deviceBuilder.type";
+import { IConfigDal, IConfig, IConfigCredentials, IConfigDevice, IConfigDeviceType } from "src/types/devices/configDal.type";
+import { ISwitchableStatus, SWITCHABLE_STATUS } from "./types/devices/switchable.type";
 
 export {
     buildHaFile,
     Switch,
     HaWebSocket,
     ISwitch,
-    IEntityState,
+    IDeviceState,
     IConfigDal,
     Light,
     ILight,
@@ -38,7 +38,7 @@ export {
     ILightBrightness,
     IConnectionConfig,
     IHandler,
-    IEntitySession,
+    IDeviceSession,
     DeviceType,
     DEVICE_TYPES,
     IBuilderHaOption,

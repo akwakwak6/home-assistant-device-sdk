@@ -1,4 +1,4 @@
-import { ISwitchableState, SWITCHABLE_STATUS } from "../types/entities/switchable.type.js";
+import { ISwitchableState, SWITCHABLE_STATUS } from "../types/devices/switchable.type.js";
 import { SwitchableEntity } from "./switchableEntity.js";
 
 export class Switch extends SwitchableEntity {

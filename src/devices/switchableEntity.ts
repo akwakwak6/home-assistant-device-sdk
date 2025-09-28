@@ -1,9 +1,9 @@
-import { ISwitchableEntity, SWITCHABLE_STATUS } from "../types/entities/switchable.type.js";
-import { IChangedState } from "../types/entities/entity.type.js";
-import { AbstractEntity } from "./abstractEntity.js";
+import { ISwitchableDevice, SWITCHABLE_STATUS } from "../types/devices/switchable.type.js";
+import { IChangedState } from "../types/devices/device.type.js";
+import { AbstractDevice } from "./abstractDevice.js";
 import { HaWebSocket } from "./haWebSocket.js";
 
-export abstract class SwitchableEntity extends AbstractEntity implements ISwitchableEntity {
+export abstract class SwitchableEntity extends AbstractDevice implements ISwitchableDevice {
     readonly TypeStatus = SWITCHABLE_STATUS;
 
     private callBackToWrapperMap: Map<(change: any) => void, (change: any) => void> = new Map();

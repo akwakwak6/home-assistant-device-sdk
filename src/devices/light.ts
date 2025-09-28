@@ -1,17 +1,11 @@
 import { SwitchableEntity } from "./switchableEntity";
 import { ColorNameEnum } from "src/types/colorName.enum";
 import { ValuesIn } from "src/types/utilsTypes";
-import { SWITCHABLE_STATUS } from "src/types/entities/switchable.type";
+import { SWITCHABLE_STATUS } from "src/types/devices/switchable.type";
 import { LightOptionDtoOut } from "src/types/dto/out/light.dto.out";
 import { IStateDtoIn } from "src/types/dto/in/base.dto.in";
 import { LightAttributesDto } from "src/types/dto/in/light.dto.in";
-import {
-    IlightTransitionEffect,
-    ILightColorState,
-    ColorRGB,
-    ILightTransitionEffectFeature,
-    ILightEffectFeature,
-} from "src/types/entities/light.type";
+import { IlightTransitionEffect, ILightColorState, ColorRGB, ILightTransitionEffectFeature, ILightEffectFeature } from "src/types/devices/light.type";
 
 export interface IBuildOptionLight<EFFETS = {}> {
     temperatureMax?: number;

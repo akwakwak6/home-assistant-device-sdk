@@ -1,9 +1,9 @@
 import { IStateDtoIn, IMessageDtoIn, IMessageDtoFromDtoMessageType, DtoMessageType } from "src/types/dto/in/base.dto.in";
-import { IEntitySession, IHandler } from "src/types/entities/entity.type";
+import { IDeviceSession, IHandler } from "src/types/devices/device.type";
 import { ConfigService } from "src/utils/services/config.service";
 import { MessageOutType } from "src/types/dto/out/base.dto.out";
-import { IConfigDal } from "src/types/entities/configDal.type";
-import { AbstractEntity } from "./abstractEntity";
+import { IConfigDal } from "src/types/devices/configDal.type";
+import { AbstractDevice } from "./abstractDevice";
 
 const CONNECT_RETRY_DELAY = 5000;
 const HEARTBEAT_INTERVAL = 2000;
@@ -11,7 +11,7 @@ const HEARTBEAT_TIMEOUT = 5000;
 
 type CallBack = (x?: unknown) => void;
 
-class Session implements IEntitySession {
+class Session implements IDeviceSession {
     private cleaners: (() => void)[] = [];
 
     constructor(private readonly subscription: OnConnectSubscription) {}
@@ -87,14 +87,15 @@ export class HaWebSocket {
     private static heartbeatTimeOutTimer?: NodeJS.Timeout;
     private static onConnectSubscriptionMap: Map<IHandler, OnConnectSubscription> = new Map();
     private static onConnectSubscriptionsInProgress: OnConnectSubscription[] = [];
-    private static haIdEntityDico: Record<string, AbstractEntity> = {};
+    private static haIdDeviceDico: Record<string, AbstractDevice> = {};
     private static callBackResultDico: Record<number, CallBack | undefined> = {};
-    private static entitySubscriptionDico: Record<string, number> = {};
+    private static deviceSubscriptionDico: Record<string, number> = {};
 
     private static idIdentifie = 0;
     private static _url: string;
     private static token: string;
     private static callBackDico: Record<number, CallBack | undefined> = {};
+    private static connectPromess?: CallBack;
 
     private static set url(url: string) {
         const protocole = url.startsWith("https://") ? "wss://" : "ws://";
@@ -113,14 +114,14 @@ export class HaWebSocket {
         await this.getCredentials(config);
 
         const promess = new Promise<void>((resolve) => {
-            this.callBackDico[0] = resolve as CallBack;
+            this.connectPromess = resolve as CallBack;
             this.startConnect();
         });
 
-        if (Object.keys(this.haIdEntityDico).length === 0) {
-            Object.values(ha).forEach((entity: any) => {
-                if (entity?.id) {
-                    this.haIdEntityDico[entity?.id] = entity as AbstractEntity;
+        if (Object.keys(this.haIdDeviceDico).length === 0) {
+            Object.values(ha).forEach((device: any) => {
+                if (device?.id) {
+                    this.haIdDeviceDico[device?.id] = device as AbstractDevice;
                 }
             });
         }
@@ -131,7 +132,7 @@ export class HaWebSocket {
     static async refreshStates(): Promise<boolean> {
         const callBack = (states: IStateDtoIn[]) => {
             states.forEach((state) => {
-                this.haIdEntityDico[state.entity_id]?.setState(state);
+                this.haIdDeviceDico[state.entity_id]?.setState(state);
             });
         };
         return this.sendCmdToHa({ type: MessageOutType.GetParamss }, callBack as CallBack);
@@ -180,14 +181,14 @@ export class HaWebSocket {
     }
 
     public static unsubscribe(entityId: string): Promise<boolean> {
-        if (!this.entitySubscriptionDico[entityId]) {
+        if (!this.deviceSubscriptionDico[entityId]) {
             console.warn("No subscription found for entity " + entityId);
             return Promise.resolve(false);
         }
 
         const body = {
             type: MessageOutType.UnsubscribeEvents,
-            subscription: this.entitySubscriptionDico[entityId],
+            subscription: this.deviceSubscriptionDico[entityId],
         };
         return HaWebSocket.sendCmdToHa(body);
     }
@@ -208,7 +209,7 @@ export class HaWebSocket {
 
             const onResult = (result: boolean) => {
                 callBack && (this.callBackDico[id] = callBack as CallBack);
-                subEntityId && (this.entitySubscriptionDico[subEntityId] = id);
+                subEntityId && (this.deviceSubscriptionDico[subEntityId] = id);
                 resolve(result);
             };
 
@@ -280,7 +281,8 @@ export class HaWebSocket {
         if (msg.type === DtoMessageType.AuthOk) {
             console.log("Connected to Home Assistant");
             this.isAuthenticated = true;
-            this.callBackDico[0]?.();
+            this.connectPromess?.();
+            this.connectPromess = undefined;
             this.onConnectSubscriptionMap.forEach(this.executeOnConnectSubscriptions);
             this.startHeartbeat();
             return;

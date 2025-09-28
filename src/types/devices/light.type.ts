@@ -1,6 +1,6 @@
-import { ISwitchableEntity, ISwitchableState } from "./switchable.type";
+import { ISwitchableDevice, ISwitchableState } from "./switchable.type";
 import { ISwitchableSimple } from "./switch.type";
-import { IChangedState } from "./entity.type";
+import { IChangedState } from "./device.type";
 import { ColorNameEnum } from "../colorName.enum";
 import { ValuesIn } from "../utilsTypes";
 
@@ -15,7 +15,7 @@ export interface ILightBrightnessFeature {
 
 export type ILightBrightnessState = ISwitchableState & ILightBrightnessFeature;
 
-export interface ILightBrightness extends ISwitchableEntity {
+export interface ILightBrightness extends ISwitchableDevice {
     readonly state: ILightBrightnessState;
     brightness?: number;
 
@@ -36,7 +36,7 @@ export interface ILightTemperatureFeature extends ILightBrightnessFeature {
 
 export type ILightTemperatureState = ISwitchableState & ILightTemperatureFeature;
 
-export interface ILightTemperatureBase extends ISwitchableEntity {
+export interface ILightTemperatureBase extends ISwitchableDevice {
     readonly temperatureMax: number;
     readonly temperatureMin: number;
     brightness?: number;

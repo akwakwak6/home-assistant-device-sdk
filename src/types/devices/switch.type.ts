@@ -1,7 +1,7 @@
-import { ISwitchableEntity, ISwitchableState } from "./switchable.type";
-import { IChangedState } from "./entity.type";
+import { ISwitchableDevice, ISwitchableState } from "./switchable.type";
+import { IChangedState } from "./device.type";
 
-export interface ISwitchableSimple extends ISwitchableEntity {
+export interface ISwitchableSimple extends ISwitchableDevice {
     turnOn(): Promise<boolean>;
     toggle(): Promise<boolean>;
 

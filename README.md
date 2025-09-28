@@ -70,16 +70,16 @@ The SDK resolves credentials in the following order (highest to lowest):
 This ensures your automations are resilient and re-established correctly if the connection drops.
 
 ```typescript
-import type { IEntitySession } from "home-assistant-device-sdk";
+import type { IDeviceSession } from "home-assistant-device-sdk";
 
-function morningAutomations(session: IEntitySession) {
+function morningAutomations(session: IDeviceSession) {
     console.log("Morning automations are now active.");
     HA.devices.mySwitch.onStateChange = (state) => {
         console.log("Switch state changed during the day.");
     };
 }
 
-function eveningAutomations(session: IEntitySession) {
+function eveningAutomations(session: IDeviceSession) {
     console.log("Evening automations are now active.");
     HA.devices.mySwitch.onStateChange = (state) => {
         console.log("Switch state changed during the evening.");
@@ -104,7 +104,7 @@ To prevent unwanted side effects and memory leaks, the SDK offers several powerf
 The simplest method: any event listener assigned directly as a property (e.g., `onStateChange = ...`) within your `onConnect` handler is **automatically tracked and removed**.
 
 ```typescript
-function setupAutomations(session: IEntitySession) {
+function setupAutomations(session: IDeviceSession) {
     // This listener is cleaned up automatically
     HA.devices.mySwitch.onStateChange = (state) => {
         console.log("Switch state changed!");
@@ -121,7 +121,7 @@ For listeners created asynchronously or for non-SDK resources (like timers), the
 The `session.track()` method accepts a **cleanup function** that will be executed automatically when the session ends. This is essential for any resource created asynchronously or for resources the SDK cannot track automatically (like timers).
 
 ```typescript
-function onConnected(session: IEntitySession) {
+function onConnected(session: IDeviceSession) {
     // Example 1: Tracking a listener created asynchronously
     setTimeout(() => {
         const onTurnOnHandler = () => {
@@ -144,7 +144,7 @@ function onConnected(session: IEntitySession) {
 To track a group of listeners created within a specific block of code, wrap them with `startTrack()` and `stopTrack()`.
 
 ```typescript
-function onConnected(session: IEntitySession) {
+function onConnected(session: IDeviceSession) {
     setTimeout(() => {
         session.startTrack(); // Start tracking listeners from here
         HA.devices.switchLeft.onTurnOn = () => {
@@ -165,7 +165,7 @@ The `session.onEnd` property is a versatile tool for registering a final cleanup
 1.  **For Timers:** As a shortcut for `setInterval`, assign its ID to `session.onEnd`. The SDK will automatically call `clearInterval`.
 
     ```typescript
-    function onConnected(session: IEntitySession) {
+    function onConnected(session: IDeviceSession) {
         session.onEnd = setInterval(() => console.log("tik"), 1000);
     }
     ```
@@ -173,7 +173,7 @@ The `session.onEnd` property is a versatile tool for registering a final cleanup
 2.  **For a Custom Cleanup Function:** Assign a function to `session.onEnd`. This adds the function to a queue, and all registered functions will be executed during cleanup.
 
     ```typescript
-    function onConnected(session: IEntitySession) {
+    function onConnected(session: IDeviceSession) {
         session.onEnd = () => {
             console.log("Custom cleanup action executed.");
         };
@@ -185,7 +185,7 @@ The `session.onEnd` property is a versatile tool for registering a final cleanup
 Your `onConnect` handler can return a single function that will be executed as a final cleanup step. This is useful for logic that must run last.
 
 ```typescript
-function onConnected(session: IEntitySession) {
+function onConnected(session: IDeviceSession) {
     const msgState = () => console.log("State changed");
     HA.devices.mySwitch.onStateChange = msgState;
 
@@ -204,8 +204,8 @@ When you run the `hagen` CLI, it creates a `.hasdk.config.json` file in your pro
 
 You can manually edit this file to:
 
--   **Rename devices:** Change the `name` property for any entity.
--   **Ignore specific entities:** Set the `isUsed` property to `false` for an entity you want to exclude.
+-   **Rename devices:** Change the `name` property for any device.
+-   **Ignore specific entities:** Set the `isUsed` property to `false` for an device you want to exclude.
 -   **Ignore entire device types:** Add a `deviceType` section to disable generation for types like `light`, `switch`, etc.
 
 **Credential Management**

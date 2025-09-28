@@ -1,7 +1,7 @@
 import { LightAttributesDto } from "src/types/dto/in/light.dto.in";
 import { toUpperCase } from "../mappers/string.mapper";
 import { DeviceBuilder } from "./device.builder";
-import { IDeviceToBuild } from "src/types/entities/deviceBuilder.type";
+import { IDeviceToBuild } from "src/types/devices/deviceBuilder.type";
 
 enum LightTypes {
     ON_OFF = "ILight",

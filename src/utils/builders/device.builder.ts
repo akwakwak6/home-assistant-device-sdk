@@ -1,4 +1,4 @@
-import { IDeviceToBuild } from "src/types/entities/deviceBuilder.type";
+import { IDeviceToBuild } from "src/types/devices/deviceBuilder.type";
 import { toPascalCase } from "../mappers/string.mapper";
 
 export class DeviceBuilder {

@@ -1,6 +1,6 @@
 import { describe, vi, it, expect, beforeEach } from "vitest";
-import { AbstractEntity } from "../abstractEntity";
 import { HaWebSocket } from "../haWebSocket";
+import { AbstractDevice } from "../abstractDevice";
 
 vi.mock("src/utils/mappers/date.mapper", () => ({
     parseISODateWithMicroseconds: vi.fn((input: string) => new Date(input.replace(/\.(\d{3})\d*(?=[+-])/, ".$1"))),
@@ -14,7 +14,7 @@ vi.mock("../haWebSocket", () => ({
     },
 }));
 
-class TestEntity extends AbstractEntity {
+class TestEntity extends AbstractDevice {
     protected readonly entityType = "test";
     readonly TypeStatus = { ON: "on", OFF: "off" };
     state: any = null;

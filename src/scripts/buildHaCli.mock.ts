@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { ConfigServiceMock } from "src/utils/services/config.service.mock";
 import { IAllSateDtoIn, IStateDtoIn } from "src/types/dto/in/base.dto.in";
-import { IConfig } from "src/types/entities/configDal.type";
+import { IConfig } from "src/types/devices/configDal.type";
 import { buildHaFile } from "../utils/builders/ha.builder";
 
 const CONFIG_MOCK_EMPTY: IConfig = {

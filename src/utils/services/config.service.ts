@@ -1,4 +1,4 @@
-import { IConfig, IConfigDal, IConfigDevice } from "src/types/entities/configDal.type";
+import { IConfig, IConfigDal, IConfigDevice } from "src/types/devices/configDal.type";
 import { DEFAULT_CONFIG_PATH, ENCODING_FILE } from "src/constants/haFileConstantes";
 import * as fs from "fs";
 
@@ -13,7 +13,7 @@ export class ConfigService implements IConfigDal {
         if (this.config) {
             return Promise.resolve(this.config as IConfig);
         }
-        return Promise.reject(new Error("Config not found"));
+        return Promise.resolve({});
     }
 
     async setDevices(devices: { [ID: string]: IConfigDevice }): Promise<void> {
@@ -23,8 +23,11 @@ export class ConfigService implements IConfigDal {
     }
 
     private loadConfig(): void {
+        console.log("Load config from");
         if (fs.existsSync(this.configPath)) {
+            console.log("file exciste");
             this.config = JSON.parse(fs.readFileSync(this.configPath, ENCODING_FILE)) as IConfig;
+            console.log("config loaded", this.config);
         }
     }
 

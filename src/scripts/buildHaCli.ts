@@ -2,7 +2,7 @@ import { buildHaFile } from "../utils/builders/ha.builder";
 import { DEFAULT_OUT_PATH } from "src/constants/haFileConstantes";
 import pkg from "../../package.json";
 import { Command } from "commander";
-import { IBuilderHaOption } from "src/types/entities/deviceBuilder.type";
+import { IBuilderHaOption } from "src/types/devices/deviceBuilder.type";
 
 const program = new Command();
 
