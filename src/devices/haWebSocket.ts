@@ -96,6 +96,7 @@ export class HaWebSocket {
     private static token: string;
     private static callBackDico: Record<number, CallBack | undefined> = {};
     private static connectPromess?: CallBack;
+    private static waitHomeAssistantToStart = false;
 
     private static set url(url: string) {
         const protocole = url.startsWith("https://") ? "wss://" : "ws://";
@@ -231,6 +232,9 @@ export class HaWebSocket {
         });
 
         this.socket.addEventListener("close", () => {
+            if (this.connectPromess) {
+                this.waitHomeAssistantToStart = true;
+            }
             this.onConnectSubscriptionMap.forEach((sub) => sub.clean());
             console.warn("WebSocket connection closed.");
             this.isAuthenticated = false;
@@ -273,18 +277,18 @@ export class HaWebSocket {
         }
 
         if (msg.type === DtoMessageType.Result) {
+            //TODO clean callBackResultDico and callBackDico
             this.callBackDico[msg.id]?.(msg.result);
             this.callBackResultDico[msg.id]?.(msg.success);
             return;
         }
 
         if (msg.type === DtoMessageType.AuthOk) {
-            console.log("Connected to Home Assistant");
-            this.isAuthenticated = true;
-            this.connectPromess?.();
-            this.connectPromess = undefined;
-            this.onConnectSubscriptionMap.forEach(this.executeOnConnectSubscriptions);
-            this.startHeartbeat();
+            if (this.waitHomeAssistantToStart) {
+                setTimeout(this.authOkProcess, 30_000);
+            } else {
+                this.authOkProcess();
+            }
             return;
         }
 
@@ -299,6 +303,15 @@ export class HaWebSocket {
         }
 
         console.warn("Unknown message type: " + (msg as any).type);
+    };
+
+    private static authOkProcess = () => {
+        this.isAuthenticated = true;
+        this.connectPromess?.();
+        this.connectPromess = undefined;
+        this.onConnectSubscriptionMap.forEach(this.executeOnConnectSubscriptions);
+        this.startHeartbeat();
+        this.waitHomeAssistantToStart = false;
     };
 
     private static resetHeartbeatTimeout = () => {
