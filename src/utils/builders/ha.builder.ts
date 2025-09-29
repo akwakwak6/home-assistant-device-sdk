@@ -162,7 +162,7 @@ function uniqueNameFactory(): (friendlyName: string, justCheck?: boolean) => str
 }
 
 function toSafeVariableName(str: string): string {
-    if (!str.trim()) {
+    if (!str?.trim()) {
         return "unknown";
     }
     let cleaned = str.replace(/[\s_]+/g, "");
@@ -177,6 +177,9 @@ function toSafeVariableName(str: string): string {
 }
 
 function toVariableName(str: string): string {
+    if (!str?.trim()) {
+        return "unknown";
+    }
     let cleaned = str.replace(/[^A-Za-z0-9 _]/g, " ");
 
     const parts = cleaned.trim().split(/[\s_]+/);

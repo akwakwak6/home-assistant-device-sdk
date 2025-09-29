@@ -23,11 +23,8 @@ export class ConfigService implements IConfigDal {
     }
 
     private loadConfig(): void {
-        console.log("Load config from");
         if (fs.existsSync(this.configPath)) {
-            console.log("file exciste");
             this.config = JSON.parse(fs.readFileSync(this.configPath, ENCODING_FILE)) as IConfig;
-            console.log("config loaded", this.config);
         }
     }
 
